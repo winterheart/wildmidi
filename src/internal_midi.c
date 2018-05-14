@@ -550,6 +550,10 @@ static void _WM_CheckEventMemoryPool(struct _mdi *mdi) {
         mdi->events_size += MEM_CHUNK;
         mdi->events = (struct _event *) realloc(mdi->events,
                               (mdi->events_size * sizeof(struct _event)));
+        if (!mdi->events){
+            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_CORUPT, "Unable to reallocate memory.", 0);
+            exit(-1);
+        }
     }
 }
 
@@ -2099,6 +2103,10 @@ uint32_t _WM_SetupMidiEvent(struct _mdi *mdi, uint8_t * event_data, uint32_t inp
                     /* Copy copyright info in the getinfo struct */
                     if (mdi->extra_info.copyright) {
                         mdi->extra_info.copyright = (char *) realloc(mdi->extra_info.copyright,(strlen(mdi->extra_info.copyright) + 1 + tmp_length + 1));
+                        if (!mdi->extra_info.copyright){
+                            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_CORUPT, "Unable to reallocate memory.", 0);
+                            exit(-1);
+                        }
                         memcpy(&mdi->extra_info.copyright[strlen(mdi->extra_info.copyright) + 1], event_data, tmp_length);
                         mdi->extra_info.copyright[strlen(mdi->extra_info.copyright) + 1 + tmp_length] = '\0';
                         mdi->extra_info.copyright[strlen(mdi->extra_info.copyright)] = '\n';

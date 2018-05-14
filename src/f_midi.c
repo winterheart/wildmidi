@@ -949,6 +949,10 @@ _WM_Event2Midi(struct _mdi *mdi, uint8_t **out, uint32_t *outsize) {
     (*out)[11] = track_count & 0xff;
 
     (*out) = (uint8_t *) realloc((*out), out_ofs);
+    if (!*out){
+        _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_CORUPT, "Unable to reallocate memory.", 0);
+        exit(-1);
+    }
     (*outsize) = out_ofs;
 
     return 0;
