@@ -848,11 +848,13 @@ static int WM_GetOutput_Linear(midi * handle, int8_t *buffer, uint32_t size) {
         } else {
             mdi->mix_buffer_size = size / 2;
         }
-        mdi->mix_buffer = (int32_t *) realloc(mdi->mix_buffer, mdi->mix_buffer_size * sizeof(int32_t));
-        if (!mdi->mix_buffer){
-            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_CORUPT, "Unable to reallocate memory.", 0);
-            exit(-1);
+        int32_t *new_mix_buffer = (int32_t *) realloc(mdi->mix_buffer, mdi->mix_buffer_size * sizeof(int32_t));
+        if (!new_mix_buffer){
+            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_MEM, "Unable to reallocate memory.", 0);
+            free(mdi->mix_buffer);
+            return(-1);
         }
+        mdi->mix_buffer = new_mix_buffer;
     }
 
     tmp_buffer = mdi->mix_buffer;
@@ -1170,11 +1172,13 @@ static int WM_GetOutput_Gauss(midi * handle, int8_t *buffer, uint32_t size) {
         } else {
             mdi->mix_buffer_size = size / 2;
         }
-        mdi->mix_buffer = (int32_t *) realloc(mdi->mix_buffer, mdi->mix_buffer_size * sizeof(int32_t));
-        if (!mdi->mix_buffer){
-            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_CORUPT, "Unable to reallocate memory.", 0);
-            exit(-1);
+        int32_t *new_mix_buffer = (int32_t *) realloc(mdi->mix_buffer, mdi->mix_buffer_size * sizeof(int32_t));
+        if (!new_mix_buffer){
+            _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_MEM, "Unable to reallocate memory.", 0);
+            free(mdi->mix_buffer);
+            return(-1);
         }
+        mdi->mix_buffer = new_mix_buffer;
     }
 
     tmp_buffer = mdi->mix_buffer;
