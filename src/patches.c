@@ -68,6 +68,7 @@ _WM_get_patch_data(struct _mdi *mdi, uint16_t patchid) {
 void _WM_load_patch(struct _mdi *mdi, uint16_t patchid) {
     uint32_t i;
     struct _patch *tmp_patch = NULL;
+    struct _patch **new_patches;
 
     for (i = 0; i < mdi->patch_count; i++) {
         if (mdi->patches[i]->patchid == patchid) {
@@ -94,7 +95,7 @@ void _WM_load_patch(struct _mdi *mdi, uint16_t patchid) {
     }
 
     mdi->patch_count++;
-    struct _patch **new_patches = (struct _patch **) realloc(mdi->patches, (sizeof(struct _patch*) * mdi->patch_count));
+    new_patches = (struct _patch **) realloc(mdi->patches, (sizeof(struct _patch*) * mdi->patch_count));
     if (!new_patches) {
         _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_MEM, "Unable to reallocate memory.", 0);
         free(mdi->patches);

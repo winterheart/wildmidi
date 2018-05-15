@@ -547,8 +547,9 @@ float _WM_GetSamplesPerTick(uint32_t divisions, uint32_t tempo) {
 
 static void _WM_CheckEventMemoryPool(struct _mdi *mdi) {
     if ((mdi->event_count + 1) >= mdi->events_size) {
+        struct _event * new_events;
         mdi->events_size += MEM_CHUNK;
-        struct _event * new_events = (struct _event *) realloc(mdi->events,
+        new_events = (struct _event *) realloc(mdi->events,
                                                                (mdi->events_size * sizeof(struct _event)));
         if (!new_events){
             _WM_GLOBAL_ERROR(__FUNCTION__, __LINE__, WM_ERR_MEM, "Unable to reallocate memory.", 0);
