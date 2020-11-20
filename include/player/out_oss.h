@@ -46,7 +46,7 @@
 #endif
 
 
-int open_oss_output(void);
+int open_oss_output(const char * output);
 int write_oss_output(int8_t *output_data, int output_size);
 void close_oss_output(void);
 void pause_oss_output(void);
