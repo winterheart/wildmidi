@@ -1,5 +1,5 @@
 # ########## Project setup ##########
-CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
 PROJECT(wildmidi LANGUAGES C VERSION 0.4.4)
 
 # WildMIDI Version
@@ -26,8 +26,14 @@ IF (NOT DEFINED CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
     # Set the possible values of build type for cmake-gui
     SET_PROPERTY(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 ENDIF ()
-SET(CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}")
-MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+IF(CMAKE_CONFIGURATION_TYPES)
+    SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;MinSizeRel;RelWithDebInfo")
+    MESSAGE(STATUS "Multi configuration generator detected.")
+    MESSAGE(STATUS "Available build types are: Debug (default); Release; MinSizeRel; RelWithDebInfo.")
+    MESSAGE(STATUS "Build project with cmake --build <dir> --config <build_type>")
+ELSE()
+    MESSAGE(STATUS "Build Type: ${CMAKE_BUILD_TYPE}")
+ENDIF()
 
 # Set our options
 OPTION(BUILD_SHARED_LIBS "Build a dynamic wildmidi library" ON)
